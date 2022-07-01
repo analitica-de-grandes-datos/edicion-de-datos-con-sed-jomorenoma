@@ -41,3 +41,10 @@
 #
 #  >>> Escriba su codigo a partir de este punto <<<
 #
+rm -rf anio.csv nul.csv output.csv
+
+cat data.csv | sed 's/\/\([0-9]\)\([0-9]\);/-20\1\2;/' | sed 's/\/\([0-9]\)\//\/0\1-/' | sed 's/\([0-9]*\)\//\1-/' | sed '$ s/\([0-9]\)-/0\1-/' | sed 's/\([0-9]*\)-\([0-9]*\)-\([0-9]*\)/\3-\2-\1/' >> anio.csv
+
+cat anio.csv | sed 's/[a-z]*/\U&/g' | sed 's/;[N]/;\\N/' | sed 's/;;/;\\N;/g' | sed 's/;$/;\\N/g' >> nul.csv
+
+cat nul.csv | sed 's/,/./g' | sed 's/;/,/g' >> output.csv
